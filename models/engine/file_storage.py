@@ -5,7 +5,13 @@ Class definition of FileStorage.
 import datetime
 import json
 import os
-from models.base_model import BaseModels
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 """
 serialisation and deserialisation of base model classes
@@ -18,35 +24,27 @@ class FileStorage:
         """
         Returns the dictionary of objects
         """
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """
         Sets new obj in __objects with <obj class name>.id
         """
         key = f"{obj._name_.__name__}.{obj.id}"
-        self.__objects[key] = obj
+        FileStorage.__objects[key] = obj
 
     def save(self):
         """
-        Serialzes __objects to the JSON file(path:_file_path)
+        Serializes __objects to the JSON file(path:_file_path)
         """
-        with open(self.__file_path, "w", encoding="utf-8") as file:
-            d = {b: t.to_dict() for b, t in self.__objects.items()}
+        with open(FileStorage.__file_path, "w", encoding="utf-8") as file:
+            d = {b: t.to_dict() for b, t in FileStorage.__objects.items()}
             json.dump(d, file)
 
     def classes(self):
         """
         Returns a dictionary of valid classes and their references.
         """
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.place import Place
-        from models.review import Review
-
         classes = {"BaseModel": BaseModel,
                    "User": User,
                    "State": State,
@@ -60,13 +58,13 @@ class FileStorage:
         """
         Deserializes JSON file into __objects.
         """
-        if not os.path.isfile(self.__file_path):
+        if not os.path.isfile(FileStorage.__file_path):
             return
-        with open(self.__file_path, "r", encoding="utf-8") as file:
+        with open(FileStorage.__file_path, "r", encoding="utf-8") as file:
             obj_dict = json.load(file)
-            obj_dict = {b: self.classes()[t["__class__"]](**v)
+            obj_dict = {b: FileStorage.classes()[t["__class__"]](**v)
                         for b, t in obj_dict.items()}
-            self.__objects = obj_dict
+            FileStorage.__objects = obj_dict
 
     def attributes(self):
         """
