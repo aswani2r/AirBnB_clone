@@ -5,34 +5,33 @@ Class definition of FileStorage.
 import datetime
 import json
 import os
+from models.base_model import BaseModels
 
-
+"""
+serialisation and deserialisation of base model classes
+"""
 class FileStorage:
-
-    """
-    Class for serializtion and deserialization of base classes.
-    """
     __file_path = "file.json"
     __objects = {}
 
     def all(self):
         """
-        Returns __objects dictionary.
+        Returns the dictionary of objects
         """
-        return FileStorage.__objects
+        return self.__objects
 
     def new(self, obj):
         """
-        Sets new obj in __objects dictionary.
+        Sets new obj in __objects with <obj class name>.id
         """
-        key = "{}.{}".format(type(obj).__name__, obj.id)
+        key = f"{obj._name_.__name__}.{obj.id}"
         FileStorage.__objects[key] = obj
 
     def save(self):
         """
-        Serialzes __objects to the JSON file.
+        Serialzes __objects to the JSON file(path:_file_path)
         """
-        with open(FileStorage.__file_path, "w", encoding="utf-8") as file:
+        with open(self.__file_path, "w", encoding="utf-8") as file:
             d = {b: t.to_dict() for b, t in FileStorage.__objects.items()}
             json.dump(d, file)
 
