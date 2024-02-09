@@ -5,7 +5,6 @@ import unittest
 from datetime import datetime
 import time
 from models.user import User
-import re
 import json
 from models.engine.file_storage import FileStorage
 import os
@@ -35,18 +34,18 @@ class TestUser(unittest.TestCase):
     def test_8_instantiation(self):
         """Tests instantiation of User class."""
 
-        b = User()
-        self.assertEqual(str(type(b)), "<class 'models.user.User'>")
-        self.assertIsInstance(b, User)
+        o = User()
+        self.assertEqual(str(type(o)), "<class 'models.user.User'>")
+        self.assertIsInstance(o, User)
         self.assertTrue(issubclass(type(b), BaseModel))
 
     def test_8_attributes(self):
         """Tests the attributes of User class."""
         attributes = storage.attributes()["User"]
         o = User()
-        for k, v in attributes.items():
-            self.assertTrue(hasattr(o, k))
-            self.assertEqual(type(getattr(o, k, None)), v)
+        for b, t in attributes.items():
+            self.assertTrue(hasattr(o, b))
+            self.assertEqual(type(getattr(o, b, None)), t)
 
 if __name__ == "__main__":
     unittest.main()
