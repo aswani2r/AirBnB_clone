@@ -25,14 +25,14 @@ class FileStorage:
         Sets new obj in __objects with <obj class name>.id
         """
         key = f"{obj._name_.__name__}.{obj.id}"
-        FileStorage.__objects[key] = obj
+        self.__objects[key] = obj
 
     def save(self):
         """
         Serialzes __objects to the JSON file(path:_file_path)
         """
         with open(self.__file_path, "w", encoding="utf-8") as file:
-            d = {b: t.to_dict() for b, t in FileStorage.__objects.items()}
+            d = {b: t.to_dict() for b, t in self.__objects.items()}
             json.dump(d, file)
 
     def classes(self):
@@ -60,13 +60,13 @@ class FileStorage:
         """
         Deserializes JSON file into __objects.
         """
-        if not os.path.isfile(FileStorage.__file_path):
+        if not os.path.isfile(self.__file_path):
             return
-        with open(FileStorage.__file_path, "r", encoding="utf-8") as file:
+        with open(self.__file_path, "r", encoding="utf-8") as file:
             obj_dict = json.load(file)
             obj_dict = {b: self.classes()[t["__class__"]](**v)
                         for b, t in obj_dict.items()}
-            FileStorage.__objects = obj_dict
+            self.__objects = obj_dict
 
     def attributes(self):
         """
