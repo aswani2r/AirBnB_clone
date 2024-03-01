@@ -4,8 +4,8 @@ Contains the Base class for the AirBnB clone console.
 """
 import uuid
 from datetime import datetime
-import models
 import sys
+import models
 
 class BaseModel:
     def __init__(self, *args, **kwargs):
@@ -25,7 +25,7 @@ class BaseModel:
 
     def save(self):
         self.updated_at = datetime.now()
-        models.storage.save()
+        models.storage.save(self)
 
     def to_dict(self):
         obj_dict = self.__dict__.copy()
@@ -33,4 +33,3 @@ class BaseModel:
         obj_dict['created_at'] = self.created_at.isoformat()
         obj_dict['updated_at'] = self.updated_at.isoformat()
         return obj_dict
-t
