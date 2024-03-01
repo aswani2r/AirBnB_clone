@@ -3,11 +3,10 @@
 BaseModel class definition.
 Contains the Base class for the AirBnB clone console.
 """
-
+import sys
 import uuid
 from datetime import datetime
-from . import storage
-
+import models
 
 class BaseModel:
 
