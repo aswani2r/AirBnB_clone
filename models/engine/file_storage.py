@@ -6,7 +6,6 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-import os
 from models.user import User
 
 class FileStorage:
@@ -33,13 +32,14 @@ class FileStorage:
                 data = json.load(file)
                 for key, value in data.items():
                     class_name, obj_id = key.split('.')
-                    cls = getattr(models, class_name)
-                    self.__objects[key] = cls(**value)
+                    cls = self.classes()[class_name]
+                    if cls:
+                        self.__objects[key] = cls(**value)
         except FileNotFoundError:
             pass
 
-    def classes(self):
-        classes = {
+    def classes():
+        return {
             "BaseModel": BaseModel,
             "User": User,
             "State": State,
@@ -48,10 +48,9 @@ class FileStorage:
             "Place": Place,
             "Review": Review
         }
-        return classes
 
-    def attributes(self):
-        attributes = {
+    def attributes():
+        return {
             "BaseModel": {
                 "id": str,
                 "created_at": datetime.datetime,
@@ -92,4 +91,3 @@ class FileStorage:
                 "text": str
             }
         }
-        return attributes
