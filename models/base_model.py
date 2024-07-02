@@ -1,5 +1,9 @@
 #!usr/bin/python3
+"""
+base class for basemodels contained here.
+"""
 import uuid
+import sys
 from datetime import datetime
 
 class BaseModel:
