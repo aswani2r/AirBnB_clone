@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Module for FileStorage autoinitialization.
+Package handler
 """
 
 from models.engine.file_storage import FileStorage
